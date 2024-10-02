@@ -1,27 +1,3 @@
-//========================================================================
-// TopFinishKits.com Template Program for Robot Tour
-//
-//  Board: Arduino Uno
-//  Vehicle: D4
-//  Version: 2.1
-//
-// The information contained in this program is for general education 
-// purposes only. The information is provided by TopFinishKits.com and 
-// while we endeavor to keep the information up to date and correct, 
-// we make no representations or warranties of any kind, express or 
-// implied, about the completeness, accuracy, reliability, suitability 
-// or availability with respect to the this program, or the website,
-// information, products, services, or related graphics contained on
-// the website for any purpose. Any reliance you place on such 
-// information is therefore strictly at your own risk.
-//
-// Change Log:
-//    2023-11-24  - Modified MotionLogic to only use minimum speed at the end
-//                  of a move.
-//                - Changed MotionLogic debug to work with the Serial Plotter.
-//                - Minimum Speed is a constant set with the other constants.
-//
-//========================================================================
 #include <Arduino.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>    // this library is needed for the 20x4 display
@@ -30,11 +6,6 @@
 
 #define DISPLAY_PRESENT        0  // set to 1 if the 20x4 I2C Display is present
 
-//
-//  Board: Ardunio Uno
-//  DEFINE ALL I/O PIN CONNECTIONS
-//    *** DO NOT CHANGE ***
-//
 #define PIN_MTR1_ENCA          2
 #define PIN_MTR2_ENCA          3
 #define PIN_PB_START           4
@@ -587,19 +558,8 @@ void toggleLED() {
   }
 }
 
-//=======================================================================================
-//  This function is called to update the variable information on the display.
-//  Only limited information is updated at a time since the write commands are slow
-//=======================================================================================
 void initDisplay() {
 
-  // Display is 20 characters wide by 4 lines
-
-  // 01234567890123456789
-  // Cmd:
-  //   
-  // Rng: xxxx.x cm
-  // Time: xx.xxx  v.v.vv
 
   display.clear();
   display.setCursor(0,0);
@@ -613,10 +573,6 @@ void initDisplay() {
 
 }
 
-//=======================================================================================
-//  This function is called to update the variable information on the display.
-//  Only limited information is updated at a time since the write commands are slow
-//=======================================================================================
 void updateDisplay() {
   int cmd;
   char buff[12];
@@ -686,17 +642,12 @@ void updateDisplay() {
   toggleLED();
 }
 
-//======================================================================================
-// The setup() is called once at the power up of the Arduino
-//======================================================================================
 void setup() {
 
   pinMode(PIN_LED, OUTPUT);
   flagLED = false;
 
-  // Only uncomment one motor at a time to use the Serial Plotter function to tune the PID loop
-  //mtrLeft.debugOn();
-  //mtrRight.debugOn();
+
   Serial.begin(9600);
   if (mtrLeft.debugState() || mtrRight.debugState()) {
     Serial.begin(115200);
